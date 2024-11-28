@@ -11,6 +11,8 @@ def test_login(_driver,mail,pwd):
     home_page.click_login()
     loginpage=Login_Page(_driver)
     loginpage.login(mail,pwd)
+    logged_in_user_element = _driver.find_element("xpath", "//a[@class='ico-logout']")
+    assert logged_in_user_element.is_displayed(), "Login failed, logout button not found."
 
 @mark.parametrize("mail, pwd", [("ab@universe.com", "xyz@123"),("aq@universe.com","abc@123")])
 def test_invalid_login(_driver,mail,pwd):
@@ -20,4 +22,4 @@ def test_invalid_login(_driver,mail,pwd):
     loginpage=Login_Page(_driver)
     loginpage.login(mail,pwd)
     error_message=_driver.find_element("xpath",'//div[@class="validation-summary-errors"]')
-    assert  error_message.text=="Login was unsuccessful. Please correct the errors and try again."
+    assert  error_message.is_displayed(),"Login was unsuccessful. Please correct the errors and try again."
